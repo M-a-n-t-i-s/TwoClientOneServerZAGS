@@ -1,0 +1,9 @@
+{
+  "uri": "http://127.0.0.1:5000/marriage/3/edit/divorce",
+  "method": "POST",
+  "body": "{\n     \"date_divorce\": 0\n     }",
+  "headers": {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  }
+}

@@ -1,0 +1,3 @@
+INSERT INTO born (fio, date, gender) VALUES ('Кузьмин Виктрр Аристархович','22.03.2011','мужской')
+INSERT INTO user (name, surname, role, password) VALUES ('Петр', 'Иванов',1, 'qwerty'), ('Фёдор', 'Двинятин', 2, 'qwerty'), ('Алексей', 'Мишин', 3, 'qwerty')
+INSERT INTO marriage (id_husband, id_wife, date) VALUES (1,2,'22.03.2000')

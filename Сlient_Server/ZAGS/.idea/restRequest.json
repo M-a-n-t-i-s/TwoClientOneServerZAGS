@@ -1,0 +1,9 @@
+{
+  "uri": "http://localhost:5000/death",
+  "method": "GET",
+  "body": "{\n     \"fio\": \"Petrov Igor Petrovdfgfddc1h\",\n     \"date\": \"12.02.20031\",\n     \"place\": \"Tula1\",\n     \"description\": \"Sucid222e1\"\n}",
+  "headers": {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  }
+}
