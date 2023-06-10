@@ -1,8 +1,7 @@
 import sys
-from hashlib import sha256
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QTabWidget, QListWidget, QListWidgetItem, \
-    QLabel, QDialog, QFormLayout, QLineEdit, QTextEdit, QErrorMessage, QComboBox, QHBoxLayout, QTableWidgetItem
+    QLabel, QDialog, QFormLayout, QLineEdit, QTextEdit, QErrorMessage, QComboBox, QHBoxLayout
 
 from server_connector import ServerConnector, SecurityError
 
@@ -499,15 +498,13 @@ class BornListItem(QListWidgetItem):
         self.id = born_dick['id']
         self.data = born_dick
 
-        text=f"{born_dick['id']}".strip().ljust(10-len(str(born_dick['id']))) + f"{born_dick['fio']}".strip().ljust(82-len(str(born_dick['fio']))) + f"{born_dick['date']}".strip().ljust(
-                38-len(str(born_dick['date']))) + f"{born_dick['gender']}".strip().ljust(30-len(str(born_dick['gender']))) + f"{born_dick['id_parents']}".strip().ljust(
-                35-len(str(born_dick['id_parents']))) + f"{born_dick['death_date']}"
+        text = f"{born_dick['id']}".strip().ljust(10 - len(str(born_dick['id']))) + f"{born_dick['fio']}".strip().ljust(
+            82 - len(str(born_dick['fio']))) + f"{born_dick['date']}".strip().ljust(
+            38 - len(str(born_dick['date']))) + f"{born_dick['gender']}".strip().ljust(
+            30 - len(str(born_dick['gender']))) + f"{born_dick['id_parents']}".strip().ljust(
+            35 - len(str(born_dick['id_parents']))) + f"{born_dick['death_date']}"
 
         self.setText(text)
-
-
-
-
 
 
 class MarriageListItem(QListWidgetItem):

@@ -1,7 +1,7 @@
 {
-  "uri": "http://127.0.0.1:5000/marriage/3/edit/divorce",
+  "uri": "http://127.0.0.1:5000/users/auth",
   "method": "POST",
-  "body": "{\n     \"date_divorce\": 0\n     }",
+  "body": "{\n     \"user_id\": 1,\n     \"password\": \"qwerty\"\n  }",
   "headers": {
     "Accept": "application/json",
     "Content-Type": "application/json"

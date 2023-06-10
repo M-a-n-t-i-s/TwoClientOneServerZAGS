@@ -1,48 +1,64 @@
 import React from 'react';
 import './App.css'
 
-
+let k=0
 const App = () => {
-    window.addEventListener("load",async ()=>{
-        document.forms["bornForm"].style.display="none";
-        document.forms["deathForm"].style.display="none";
-        document.forms["marriageForm"].style.display="none";
-        document.forms["divorceForm"].style.display="none";
-        get("http://127.0.0.1:5000/death",death_row,".death")
-        get("http://127.0.0.1:5000/born",born_row,".born")
-        get("http://127.0.0.1:5000/marriage",marriage_row,".marriage")
+    if (sessionStorage.getItem("session") === "true") {window.addEventListener("load",(e)=> {
+        k+=1
+        if(k===1) {
+            ren()
+        }
+    })}
+
+
+    async function ren() {
+
+        document.forms["bornForm"].style.display = "none";
+        document.forms["deathForm"].style.display = "none";
+        document.forms["marriageForm"].style.display = "none";
+        document.forms["divorceForm"].style.display = "none";
+
+        get("http://127.0.0.1:5000/death", death_row, ".death")
+
+        get("http://127.0.0.1:5000/born", born_row, ".born")
+
+        get("http://127.0.0.1:5000/marriage", marriage_row, ".marriage")
+
         console.log('HEY')
-        if ('serviceWorker' in navigator){
-            try{
-                 const reg = await navigator.serviceWorker.register('/sw.js')
-                console.log("Service worker register success",reg)
+        if ('serviceWorker' in navigator) {
+            try {
+                const reg = navigator.serviceWorker.register('/sw.js')
+                console.log("Service worker register success", reg)
             } catch (e) {
                 console.log("Service worker register fail")
             }
         }
-    })
-
-
+    }
 
     async function get (url, drow, class_table)  {
         // отправляет запрос и получаем ответ
-
+        console.error("Меня выщвали")
         const response = await fetch(url, {
             method: "GET",
 
             headers: { 'Content-Type': 'application/json' }
-        });
+        }).then(
+
+        );
 
         // если запрос прошел нормально
         if (response.ok === true) {
+
+            console.error("FFAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             // получаем данные
             const data = await response.json();
             let rows = document.querySelector(class_table);
             data.forEach(line => {
                 // добавляем полученные элементы в таблицу
-                rows.append(drow(line));
-
+                console.log(line)
+                 rows.append(drow(line));
             });
+
         }
         else {
             console.log("ERROR")
@@ -76,6 +92,7 @@ const App = () => {
             headers: { 'Content-Type': 'application/json'  }
         });
         if (response.ok === true) {
+
             const death = await response.json();
             const form = document.forms["deathForm"];
             death.forEach(line => {
@@ -203,7 +220,7 @@ const App = () => {
         editLink.setAttribute("style", "cursor:pointer;padding:15px;");
         editLink.append("Изменить");
         editLink.addEventListener("click", e => {
-            setVisibleForm('bornForm')
+            setVisibleForm('bornForm',e)
             e.preventDefault();
             getBorn('id',born.id);
 
@@ -227,7 +244,7 @@ const App = () => {
         deathLink.setAttribute("style", "cursor:pointer;padding:15px;");
         deathLink.append("Зарегистрировать смерть");
         deathLink.addEventListener("click", e => {
-            setVisibleForm('deathForm')
+            setVisibleForm('deathForm',e)
             e.preventDefault();
            // submit_deathForm()
             document.forms["deathForm"].elements["id"].value=born.id;
@@ -345,9 +362,12 @@ const App = () => {
             const marriage = await response.json();
             reset("divorceForm");
             window.location.reload();
-           // document.querySelector("tr[marriage-rowid='" + marriage.id + "']")
+            //document.querySelector("tr[marriage-rowid='" + marriage.id + "']")
         }
     }
+
+
+
     async function delete_method(str,id) {
         const response = await fetch("http://127.0.0.1:5000/"+str+"/"+id+"/delete", {
             method: "DELETE",
@@ -397,7 +417,7 @@ const App = () => {
             const death = await response.json();
             reset("deathForm");
             //document.querySelector(".death").append(death_row(death));
-            window.location.reload();
+           window.location.reload();
         }
     }
 
@@ -455,7 +475,7 @@ const App = () => {
             const born = await response.json();
             reset("bornForm");
             //document.querySelector("tr[born-rowid='" + born.id + "']").replaceWith(born_row(born));
-            window.location.reload();
+           window.location.reload();
         }
     }
 
@@ -537,13 +557,36 @@ const App = () => {
 
     };
 
-    function setVisibleForm(f){
+    function setVisibleForm(f,e){
+        e.preventDefault();
         const form = document.forms[f];
         form.style.display="block";
     }
-    function setNotVisibleForm(f){
+    function setNotVisibleForm(f,e){
+        e.preventDefault();
         const form = document.forms[f];
         form.style.display="none";
+    }
+    async function myFunction(input,table) {
+        // Объявить переменные
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById(input);
+        filter = input.value.toUpperCase();
+        table = document.getElementById(table);
+        tr = table.getElementsByTagName("tr");
+
+        // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
     }
     return (
         <div>
@@ -629,16 +672,18 @@ const App = () => {
             <br></br>
             <br></br>
                 <div className="btns">
-                    <button onClick={(e) => setVisibleForm('bornForm')}>Зарегистрировать рождение</button>
-                    <button onClick={(e) => setVisibleForm('marriageForm')}>Зарегистрировать брак</button>
+                    <button onClick={(e) => setVisibleForm('bornForm',e)}>Зарегистрировать рождение</button>
+                    <button onClick={(e) => setVisibleForm('marriageForm',e)}>Зарегистрировать брак</button>
                 </div>
 
                 <h3> Рожденные </h3>
-                <table className="table table-condensed table-striped table-bordered">
+            <input type="text" id="myInput" onKeyUp={()=>myFunction( "myInput", "myTable")} placeholder="Поиск по ФИО.."/>
+            <div className="scroll-table-body">
+                <table id="myTable" className="table table-condensed table-striped table-bordered ">
                     <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Фамилия Имя Отчество</th>
+                    <tr className="header">
+                        <th >ID</th>
+                        <th >Фамилия Имя Отчество</th>
                         <th>Дата рождения</th>
                         <th>Пол</th>
                         <th>ID родителей</th>
@@ -650,10 +695,14 @@ const App = () => {
                     <tbody className="born">
                     </tbody>
                 </table>
+            </div>
+
                 <h3> Умершие </h3>
-                <table className="table table-condensed table-striped table-bordered">
+            <input type="text" id="myInput2" onKeyUp={()=>myFunction( "myInput2", "myTable2")} placeholder="Поиск по ФИО.."/>
+            <div className="scroll-table-body">
+                <table id="myTable2" className="table table-condensed table-striped table-bordered">
                     <thead>
-                    <tr>
+                    <tr className="header">
                         <th>ID</th>
                         <th>Фамилия Имя Отчество</th>
                         <th>Дата смерти</th>
@@ -665,10 +714,13 @@ const App = () => {
                     <tbody className="death">
                     </tbody>
                 </table>
+            </div>
                 <h3> Браки </h3>
-                <table className="table table-condensed table-striped table-bordered">
+            <input type="text" id="myInput3" onKeyUp={()=>myFunction( "myInput3", "myTable3")} placeholder="Поиск по ФИО.."/>
+            <div className="scroll-table-body">
+                <table  id="myTable3" className="table table-condensed table-striped table-bordered">
                     <thead>
-                    <tr>
+                    <tr className="header">
                         <th>ID</th>
                         <th>ФИО Мужа</th>
                         <th>ФИО Жены</th>
@@ -681,6 +733,7 @@ const App = () => {
                     <tbody className="marriage">
                     </tbody>
                 </table>
+            </div>
         </div>
     );
 };

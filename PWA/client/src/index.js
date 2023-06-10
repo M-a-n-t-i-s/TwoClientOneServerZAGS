@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
+import Auth from "./Auth";
+import App from "./App";
 
 const client = new ApolloClient({
     uri: 'http://localhost:5000',
@@ -10,7 +12,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <App />
+        <Auth />
     </ApolloProvider>,
   document.getElementById('root')
 );

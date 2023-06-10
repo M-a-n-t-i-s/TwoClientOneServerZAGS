@@ -16,7 +16,6 @@ user_db = UserDatabase()
 marriage_db = MarriageDatabase()
 
 
-
 def check_password(request_data):
     return user_db.check_password(request_data['user_id'], request_data['password'])
 
@@ -29,6 +28,18 @@ def get_user_info(user_id):
         return {'status': 'ok', 'role': user_db.get_user_role(user_id)}
     except UserNotFoundError:
         return {'status': 'error', 'message': 'wrong user or password'}
+
+
+@app.route('/users/auth', methods=['POST'])
+def auth():
+    data = json.loads(request.data)
+    if not user_db.check_password(data['user_id'], data['password']):
+        return {'status': 'error', 'message': 'wrong user or password'}
+    try:
+        return {'status': 'ok', 'role': user_db.get_user_role(data['user_id'])}
+    except UserNotFoundError:
+        return {'status': 'error', 'message': 'wrong user or password'}
+
 
 
 @app.route('/death', methods=['GET'])

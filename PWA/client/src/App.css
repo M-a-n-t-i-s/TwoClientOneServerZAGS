@@ -56,3 +56,71 @@ form {
   border: 1px solid lightgray;
   margin-top: 10px;
 }
+
+
+.scroll-table-body {
+  height: 150px;
+  overflow-x: auto;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+.scroll-table table {
+  width:100%;
+  table-layout: fixed;
+  border: none;
+}
+.scroll-table thead th {
+  font-weight: bold;
+  text-align: left;
+  border: none;
+  padding: 10px 15px;
+  background: #d8d8d8;
+  font-size: 14px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.scroll-table tbody td {
+  text-align: left;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  padding: 10px 15px;
+  font-size: 14px;
+  vertical-align: top;
+}
+.scroll-table tbody tr:nth-child(even){
+  background: #f3f3f3;
+}
+
+#myInput, #myInput2, #myInput3 {
+   /* Добавить значок поиска для ввода */
+  background-position: 10px 12px; /* Расположите значок поиска */
+  background-repeat: no-repeat; /* Не повторяйте изображение значка */
+  width: 100%; /* Полная ширина */
+  font-size: 16px; /* Увеличить размер шрифта */
+  padding: 12px 20px 12px 40px; /* Добавить немного отступов */
+  border: 1px solid #ddd; /* Добавить серую границу */
+  margin-bottom: 12px; /* Добавить некоторое пространство под входом */
+}
+
+#myTable, #myTable2, #myTable3 {
+  border-collapse: collapse; /* Свернуть границы */
+  width: 100%; /* Полная ширина */
+  border: 1px solid #ddd; /* Добавить серую границу */
+  font-size: 18px; /* Увеличить размер шрифта */
+}
+
+#myTable th, #myTable td, #myTable2 th, #myTable2 td, #myTable3 th, #myTable3 td {
+  text-align: left; /* Выравнивание текста по левому краю */
+  padding: 12px; /* Добавить отступ */
+}
+
+#myTable tr,#myTable2 tr,#myTable3 tr {
+  /* Добавить нижнюю границу для всех строк таблицы */
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover,#myTable2 tr.header, #myTable2 tr:hover,#myTable3 tr.header, #myTable3 tr:hover {
+  /* Добавить серый цвет фона для заголовка таблицы и при наведении курсора мыши */
+  background-color: #f1f1f1;
+}
